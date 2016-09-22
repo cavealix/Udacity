@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+	<head>
+
+		<!-- Meta -->
+  		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+		<meta name="mobile-web-app-capable" content="yes">
+
+		<!-- Title -->
+		<title>Alix Cave Portfolio Project</title>
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="css/bootstrap.css"/>
+		<link rel="stylesheet" href="css/style.css"/>
+
+		<!-- Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Lato:300,400" rel="stylesheet">
+  		
+
+	</head>
+	<body>
+
+		<!-- Include Wrapper for Large Displays -->
+		<div class="wrapper">
+
+			<!-- Bootstrap Navbar -->
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+    					<div class=" navbar-left">
+        					<a class="navbar-brand" href="#">
+        						<img class="image-responsive" src="img/HTML5_1Color_Black.svg" alt="html 5 logo">
+        					</a>
+    					</div>
+    					<div class=" navbar-right title">
+      						<h1>Alix Cave</h1>
+      						<h2>Doer of Deeds</h2>
+      					</div>
+    			</div>
+			</nav>
+
+		
+			<!-- Hero Picture -->
+			<div class="jumbotron">
+				<!-- Change Source Responsively -->
+				<picture>
+					<!-- Laptop -->
+					<source media="(min-width: 800px)" srcset="img/view/view@0,5x.jpg"/>
+					<!-- Tablet -->
+					<source media="(min-width: 400px)" srcset="img/view/view@0,33x.jpg"/>
+					<!-- Default to Mobile -->
+			  		<img class="image-responsive" src="img/view/view@0,25x.jpg" alt="image of Alix">
+			  	</picture>
+			</div>
+
+			<!-- Gallery Demos -->
+			<div class="container-fluid" id="demos">
+				<h3>Featured Work</h3>
+				<div class="row">
+
+					<!-- Bootstrap Responsive Grid -->
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+						<!-- Change Source Responsively -->
+						<figure>
+							<a href="#">
+								<picture>
+									<source media="(min-width: 800px)" srcset="img/cheers/cheers@0,33x.jpg">
+									<source media="(min-width: 400px)" srcset="img/cheers/cheers@0,25x.jpg">
+									<img class="image-responsive" 
+									src="img/cheers/cheers@0,25x.jpg" alt="cheers">
+								</picture>
+							</a>
+							<figcaption>
+								<h4>Cheers</h4>
+								<p>web address</p>
+							</figcaption>
+						</figure>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+						<figure>
+							<a href="#">
+								<picture>
+									<source media="(min-width: 800px)" srcset="img/explore/explore@0,33x.jpg">
+									<source media="(min-width: 400px)" srcset="img/explore/explore@0,25x.jpg">
+									<img class="image-responsive" 
+									src="img/explore/explore@0,25x.jpg" alt="sunflower">
+								</picture>
+							</a>
+							<figcaption>
+								<h4>Explore</h4>
+								<p>web address</p>
+							</figcaption>
+						</figure>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+						<figure>
+							<a href="#">
+								<picture>
+									<source media="(min-width: 800px)" srcset="img/selfie/selfie@0,33x.jpg">
+									<source media="(min-width: 400px)" srcset="img/selfie/selfie@0,25x.jpg">
+									<img class="image-responsive" 
+									src="img/selfie/selfie@0,25x.jpg" alt="selfie">
+								</picture>
+							</a>
+							<figcaption>
+								<h4>Selfie</h4>
+								<p>web address</p>
+							</figcaption>
+						</figure>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

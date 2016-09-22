@@ -1,0 +1,117 @@
+/* Styles initially optimized for mobile */
+img {
+	height: 100%;
+	width: 100%;
+}
+
+/* Change all Fonts */
+h1,
+h2,
+h3,
+h4,
+p {
+	font-family: "Lato", sans-serif;
+}
+
+nav img {
+	width: auto;
+	height: 300%;
+}
+
+figcaption, h4, p {
+	text-align: center;
+}
+
+p {
+	font-size: 16px;
+}
+
+h1 {
+	font-size: 3em;
+	margin: .25em;
+}
+
+h2 {
+	font-size: 1em;
+	margin: .25em;
+}
+
+h3 {
+	font-size: 2em;
+	text-align: center;
+	color: gray;
+}
+
+h4 {
+	font-size: 1.5em;
+}
+
+/* Limit content for wide displays */
+.wrapper {
+	max-width: 1000px;
+}
+
+.jumbotron {
+	margin: 0;
+	padding: 0;
+}
+
+.title {
+	text-align: right;
+}
+
+
+
+
+/* BREAK POINTS */
+
+/* Mobile */ /* Nexus 5 360w */
+@media screen and (max-width: 360px){
+	/* Styles initially optimzed for mobile */
+}
+
+/* Tablets */ /* iPad 768w */
+@media screen and (min-width: 760px){
+
+	h3 {
+		text-align: left;
+	}
+
+}
+
+/* Desktop and bigger */
+@media screen and (min-width: 1000px){
+
+	.wrapper{
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	nav img {
+		width: auto;
+		height: 550%;
+	}
+
+	p {
+		font-size: 24px;
+	}
+
+	h1 {
+		font-size: 5em;
+		margin: .25em;
+	}
+
+	h2 {
+		font-size: 2em;
+		margin: .25em;
+	}
+
+	h3 {
+		font-size: 2.5em;
+	}
+
+	h4 {
+		font-size: 3em;
+	}
+
+}

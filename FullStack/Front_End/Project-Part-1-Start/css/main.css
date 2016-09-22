@@ -1,0 +1,38 @@
+/*
+
+Your styles go here!
+
+Hint! You'll probably want to start by styling:
+  * <body>
+  * <article>
+  * <h1>
+  * <img>
+
+I've left some boilerplate below for you.
+
+*/
+
+body {
+	font-size: 16px;
+}
+
+article {
+	max-width: 50em;
+}
+
+
+article img {
+	max-width: 100%;
+}
+
+#flourish {
+	max-width: 50em;
+}
+
+h1 {
+
+}
+
+img {
+
+}

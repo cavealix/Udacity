@@ -1,0 +1,9 @@
+READ ME
+
+"Movie Trailers" is a zip file containing all the necessary code to generate a web page of 6 of my favorite movies with the titles, artwork, and trailers available to be viewed. 
+
+
+Unzip the file "Movie Trailers"
+
+Open the "entertainment_center.py" in Python IDLE and run in the Python Shell
+
