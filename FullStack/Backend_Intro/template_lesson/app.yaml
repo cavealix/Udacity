@@ -6,7 +6,7 @@ threadsafe: true
 
 handlers:
 - url: /.*
-  script: rot13.app
+  script: templates.app
 
 libraries:
 - name: jinja2
