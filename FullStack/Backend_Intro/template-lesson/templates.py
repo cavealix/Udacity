@@ -78,7 +78,7 @@ class SignUpHandler(Handler):
 
 		#if no errors, redirect to success page
 		if name_reply == pass_reply == email_reply == '':
-			self.redirect("/success?name=" + name)
+			self.redirect("/success?name=" + username)
 		#else, reload signup page with error replies
 		else:
 			self.render("signup.html", name = username, name_reply = name_reply, pass_reply = pass_reply, email_reply = email_reply)
