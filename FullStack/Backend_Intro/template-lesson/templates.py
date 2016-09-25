@@ -78,7 +78,7 @@ class SignUpHandler(Handler):
 
 		#if no errors, redirect to success page
 		if name_reply == pass_reply == email_reply == '':
-			self.redirect("/success")
+			self.redirect("/success?name="+name_reply)
 		#else, reload signup page with error replies
 		else:
 			self.render("signup.html", name = username, name_reply = name_reply, pass_reply = pass_reply, email_reply = email_reply)
@@ -90,6 +90,7 @@ def vname(username):
 		return ''
 	else:
 		return 'Invalid Username'
+
 def vpass(pass1, pass2):
 	PASS_RE = re.compile(r"^.{3,20}$")
 	if pass1 and pass2:
@@ -98,6 +99,7 @@ def vpass(pass1, pass2):
 		else:
 			return 'Invalid Password and Verification'
 	else: return 'Password and Verification Required'
+
 def vemail(email):
 	EMAIL_RE = re.compile(r"^[\S]+@[\S]+.[\S]+$")
 	if not email or EMAIL_RE.match(email):
@@ -105,11 +107,12 @@ def vemail(email):
 	else:
 		return 'Invalid Email'
 		
-		
+	
 
 class SuccessHandler(Handler):
 	def get(self):
-		self.render("signup_success.html")
+		name = self.request.get('name')
+		self.render("signup_success.html", name = name)
 
 
 app = webapp2.WSGIApplication([	('/', MainPage),
