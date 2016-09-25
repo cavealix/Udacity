@@ -78,7 +78,7 @@ class SignUpHandler(Handler):
 
 		#if no errors, redirect to success page
 		if name_reply == pass_reply == email_reply == '':
-			self.redirect("/success?name="+name_reply)
+			self.redirect("/success?name=" + name)
 		#else, reload signup page with error replies
 		else:
 			self.render("signup.html", name = username, name_reply = name_reply, pass_reply = pass_reply, email_reply = email_reply)
@@ -111,7 +111,7 @@ def vemail(email):
 
 class SuccessHandler(Handler):
 	def get(self):
-		name = self.request.get('name')
+		name = self.request.get("name")
 		self.render("signup_success.html", name = name)
 
 
