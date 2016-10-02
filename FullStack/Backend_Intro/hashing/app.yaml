@@ -6,7 +6,7 @@ threadsafe: true
 
 handlers:
 - url: /.*
-  script: asciichan.app
+  script: hash_cookies.app
 
 libraries:
 - name: jinja2

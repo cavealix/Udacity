@@ -6,7 +6,7 @@ threadsafe: true
 
 handlers:
 - url: /.*
-  script: asciichan.app
+  script: registration.app
 
 libraries:
 - name: jinja2

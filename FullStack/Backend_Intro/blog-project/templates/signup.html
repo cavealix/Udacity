@@ -1,0 +1,60 @@
+{% extends "header.html" %}
+
+{% block content %}
+
+<form method="post">
+	<h2>Sign Up</h2>
+
+	<table>
+	<tr>
+		<td>
+			Username:
+		</td>
+		<td>
+			<input type="text" name="username" value={{name}}>
+		</td>
+		<td>
+			<p style="color: red;">{{name_reply}}</p>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			Password:
+		</td>
+		<td>
+			<input type="password" name="password">
+		</td>
+		<td>
+			<p style="color: red;">{{pass_reply}}<p>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			Verify:
+		</td>
+		<td>
+			<input type="password" name="verify">
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			Enter Email (optional):
+		</td>
+		<td>
+			<input type="text" name="email">
+		</td>
+		<td>
+			<p style="color: red;">{{email_reply}}<p>
+		</td>
+	</tr>
+	</table>
+
+	
+	<button type="submit">Sign Up</button>
+
+</form>
+
+{% endblock %}

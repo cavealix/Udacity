@@ -1,5 +1,4 @@
 import os
-
 import jinja2
 import webapp2
 import re
@@ -22,18 +21,22 @@ class Handler(webapp2.RequestHandler):
 	def render(self, template, **params):
 		self.write(self.render_str(template, **params))
 
+#MAIN PAGE, FOOD LIST
 class MainPage(Handler):
 	def get(self):
 		# self.request.get_all() is a function that returns a list of all values that belong to string that matches a key in our query parameter 
 		items = self.request.get_all("food")
 		self.render("shopping_list.html", items = items)
 
+#FIZZBUZZ
 class FizzBuzzHandler(Handler):
 	def get(self):
 		n = self.request.get('n', 0)
+		#if n is present and is convertible to a number
 		n = n and int(n)
 		self.render('fizzbuzz.html', n = n)
 
+#ROT13
 class Rot13Handler(Handler):
 	def get(self):
 		self.render("rot13.html")
@@ -62,6 +65,7 @@ def check(text):
 					s[c] = chr(n)
 		return ''.join(s)
 
+#SIGN UP
 class SignUpHandler(Handler):
 	def get(self):
 		self.render("signup.html")
@@ -78,7 +82,7 @@ class SignUpHandler(Handler):
 
 		#if no errors, redirect to success page
 		if name_reply == pass_reply == email_reply == '':
-			self.redirect("/success?name=" + username)
+			self.redirect("/welcome?name=" + username)
 		#else, reload signup page with error replies
 		else:
 			self.render("signup.html", name = username, name_reply = name_reply, pass_reply = pass_reply, email_reply = email_reply)
@@ -107,17 +111,16 @@ def vemail(email):
 	else:
 		return 'Invalid Email'
 		
-	
-
+#SIGN UP SUCCESS
 class SuccessHandler(Handler):
 	def get(self):
 		name = self.request.get("name")
-		self.render("signup_success.html", name = name)
+		self.render("welcome.html", name = name)
 
 
 app = webapp2.WSGIApplication([	('/', MainPage),
 								('/fizzbuzz', FizzBuzzHandler), 
 								('/rot13', Rot13Handler),
 								('/signup', SignUpHandler),
-								('/success', SuccessHandler)
+								('/welcome', SuccessHandler)
 							], debug=True)

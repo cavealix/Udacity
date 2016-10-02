@@ -1,0 +1,11 @@
+{% extends "header.html" %}
+
+{% block content %}
+
+	<div class="post">
+		<div class="post-title">{{post.title}}</div>
+		<!-- 'pre' preserves white space -->
+		<pre clas="post-body">{{post.body}}</pre>
+	</div>
+
+{% endblock %}
