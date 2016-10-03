@@ -147,7 +147,7 @@ class LoginHandler(Handler):
 			user = User.gql("where name = :username", username=username).get()
 			#if user account exists and correct password, set cookie and redirect
 			if user and password == user.pw:
-				self.response.set_cookie('uid', make_secure_val(str(user.id)))
+				self.response.set_cookie('uid', make_secure_val(str(user.key().id())))
 				self.redirect("/blog/welcome")
 			else:
 				self.render("login.html", name = username, name_reply = 'Invalid Credentials')
@@ -164,8 +164,17 @@ class WelcomeHandler(Handler):
 			#seperate name from hash, 'name|hash'
 			uid = uid_cookie.split('|')[0]
 			user = User.get_by_id(int(uid))
-			#user = User.gql("where ID = :uid", uid=uid).get()
 			self.render("welcome.html", name = user.name)
+
+#LOGOUT
+class LogoutHandler(Handler):
+	def get(self):
+		uid_cookie = self.request.cookies.get('uid', '')
+		if uid_cookie and check_secure_val(uid_cookie):
+			self.response.set_cookie('uid', None)
+			self.redirect("/blog/signup")
+		else:
+			self.redirect("/blog/signup")
 
 
 #SECURITY
@@ -214,5 +223,6 @@ app = webapp2.WSGIApplication([	('/', MainPage),
 							('/blog/([0-9]+)', PostIDHandler),
 							('/blog/signup', SignUpHandler),
 							('/blog/welcome', WelcomeHandler),
-							('/blog/login', LoginHandler)
+							('/blog/login', LoginHandler),
+							('/blog/logout', LogoutHandler)
 							], debug=True)
