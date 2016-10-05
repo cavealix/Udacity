@@ -2,13 +2,47 @@
 <html>
 	<head>
 		<title>The Chisel Blog</title>
-		<link rel="stylesheet" type="text/css" href="styles.css">
+		<link rel="stylesheet" type="text/css" href="/static/styles.css">
+		<link rel="stylesheet" type="text/css" href="/static/bootstrap.css">
 	</head>
 	<body>
-		<header>
-			<a class="head-title" href="/blog">The Chisel Blog</a>
-		</header>
-		{% block content %}
-		{% endblock %}
+		<div class="wrapper">
+
+			<header>
+				<nav class="navbar navbar-default">
+				  <div class="container-fluid">
+				    <!-- Brand and toggle get grouped for better mobile display -->
+				    <div class="navbar-header">
+				      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+    				    <span class="sr-only">Toggle navigation</span>
+    				    <span class="icon-bar"></span>
+    				    <span class="icon-bar"></span>
+    				    <span class="icon-bar"></span>
+    				  </button>
+    				  <a class="navbar-brand" href="/blog">The Chisel Blog</a>
+    				</div>
+
+    				<!-- Collect the nav links, forms, and other content for toggling -->
+    				<div class="collapse navbar-collapse" id="">
+				      <ul class="nav navbar-nav navbar-right">
+				      	
+				      	{% if not user %}
+				        <li><a href="/blog/login">Login</a></li>
+				        <li><a href="/blog/signup">Sign Up</a></li>
+				        {% else %}
+				        <li><a href="#">{{user}}</a></li>
+				        <li><a href="/blog/newpost">New Post</a></li>
+				        <li><a href="/blog/logout">Logout</a></li>
+				        {% endif %}
+				        
+				      </ul>
+				    </div><!-- /.navbar-collapse -->
+				  </div><!-- /.container-fluid -->
+				</nav>
+			</header>
+		
+			{% block content %}
+			{% endblock %}
+		</div>
 	</body>
 </html>

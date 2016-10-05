@@ -2,37 +2,40 @@
 
 {% block content %}
 
-<form method="post">
-	<h2>Login</h2>
+<form class="user-input" method="post">
 
-	<table>
-	<tr>
-		<td>
-			Username:
-		</td>
-		<td>
-			<input type="text" name="username" value={{name}}>
-		</td>
-		<td>
-			<p style="color: red;">{{name_reply}}</p>
-		</td>
-	</tr>
-
-	<tr>
-		<td>
-			Password:
-		</td>
-		<td>
-			<input type="password" name="password">
-		</td>
-		<td>
-			<p style="color: red;">{{pass_reply}}<p>
-		</td>
-	</tr>
-
-	</table>
-
-	<button type="submit">Sign In</button>
+	<div class="input-field">
+		<h2>Login</h2>
+	
+		<table>
+		<tr>
+			<td>
+				Username:
+			</td>
+			<td>
+				<input type="text" name="username" value={{name}}>
+			</td>
+			<td>
+				<p style="color: red;">{{name_reply}}</p>
+			</td>
+		</tr>
+	
+		<tr>
+			<td>
+				Password:
+			</td>
+			<td>
+				<input type="password" name="password">
+			</td>
+			<td>
+				<p style="color: red;">{{pass_reply}}<p>
+			</td>
+		</tr>
+	
+		</table>
+	
+		<button type="submit">Sign In</button>
+	</div>
 
 </form>
 

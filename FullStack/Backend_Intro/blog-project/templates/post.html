@@ -3,9 +3,56 @@
 {% block content %}
 
 	<div class="post">
-		<div class="post-title">{{post.title}}</div>
+		<h2 class="post-title">{{post.title}} | {{post.author}}</h2>
 		<!-- 'pre' preserves white space -->
-		<pre clas="post-body">{{post.body}}</pre>
+		<p class="post-body">{{post.body}}</p>
 	</div>
+
+	<hr> <!-- place line across page for comments below -->
+
+	{% if user %}
+	<div class="btn-group" role="group" aria-label="...">
+		{% if post.author == user %}
+			<button type="button" class="btn btn-default"><a href="/blog/edit/{{post.key().id()}}">Edit</a></button>
+			<button type="button" class="btn btn-default"><a href="/blog/delete/{{post.key().id()}}">Delete</a></button>
+		{% else %}
+			{% if liked == True %}
+				<button type="submit" class="btn btn-default"><a href="/blog/like/{{post.key().id()}}">Unlike</a></button>
+			{% else %}
+				<button type="submit" class="btn btn-default"><a href="/blog/like/{{post.key().id()}}">Like</a></button>
+			{% endif %}
+		{% endif %}
+	</div>
+	{% else %}
+		<p>Login to like, edit, delete, or comment.</p>
+	{% endif %}
+
+	<div class="comment-section">
+	{% for comment in comments %}
+		<div class="comment">
+			<h4>{{comment.author}}| </h4>
+			<p>{{comment.body}}</p>
+			<p>{{comment.created}}</p>
+			{% if comment.author == user %}
+				<button type="button" class="btn btn-default"><a href="/blog/edit/{{comment.key().id()}}">Edit</a></button>
+				<button type="button" class="btn btn-default"><a href="/blog/delete/{{comment.key().id()}}">Delete</a></button>
+			{% endif %}
+		</div>
+	{% endfor %}
+
+	<!-- post previous comments -->
+
+	{% if user %}
+		<form method="post">
+			<label>
+				<div>Comment:</div>
+				<textarea id="body" name="comment-body"></textarea>
+			</label>
+			<br>
+			<input type="submit">
+		</form>
+	{% endif %}
+	</div>
+	
 
 {% endblock %}

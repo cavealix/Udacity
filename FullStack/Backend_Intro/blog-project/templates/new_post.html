@@ -1,14 +1,14 @@
 {% extends "header.html" %}
 
 {% block content %}
-<form method="post">
+<form method="post" class="newpost">
 	<label>
-		<div>title</div>
-		<input type="text" name="title" value="{{title}}">
+		<div>Title</div>
+		<input type="text" id="title" name="title" value="{{title}}">
 	</label>
 	<label>
-		<div>body</div>
-		<textarea name="body">{{body}}</textarea>
+		<div>Body</div>
+		<textarea id="body" name="body">{{body}}</textarea>
 	</label>
 	<div class="error" style="color:red;">{{error}}</div>
 	<input type="submit">
