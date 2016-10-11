@@ -6,6 +6,16 @@ The folder “blog-project” contains the source code for my submission for the
 INSTRUCTIONS
 1. Copy code to local machine
 
-2. Deploy code via the Google App Engine
+2. Test run locally, via terminal:
+	cd (app.yaml location)
+	> dev_appserver.py .
+	
+	view on localhost:8000
 
-3. Test use cases outlined in assignment
+3. Deploy code via the Google App Engine Launcher
+	+ project (udacity-144206)
+	run
+	deploy
+	view through dashboard
+
+4. Test use cases outlined in assignment
