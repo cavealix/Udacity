@@ -6,7 +6,7 @@ import time
 
 # Custom modules
 import security
-import DBclasses
+from DBclasses import User, Blog, Comment
 
 # import the db library from GAE
 from google.appengine.ext import db
@@ -69,7 +69,7 @@ class NewPostHandler(Handler):
 			#if valid title, body, and user cookie
 			if title and body:
 				#create new instance
-				a = DBclasses.Blog(title=title, body=body, author=user.name)
+				a = Blog(title=title, body=body, author=user.name)
 				#store instance
 				a.put()
 				#get idc
@@ -89,10 +89,10 @@ class NewPostHandler(Handler):
 # POST
 class PostHandler(Handler):
 	def get(self, pid):
-		post = DBclasses.Blog.get_by_id(int(pid))
+		post = Blog.get_by_id(int(pid))
 		#check if post already liked by user
 		user = user_from_cookie(self)
-		comments = DBclasses.Comment.gql(
+		comments = Comment.gql(
 			"where post = :post order by created desc",
 			post=int(pid)).fetch(limit=None)
 
@@ -104,13 +104,16 @@ class PostHandler(Handler):
 		self.render('post.html', post=post, liked=liked, comments=comments)
 	
 	def post(self, pid):
-		user = user_from_cookie(self)
-		body = self.request.get("comment-body")
-		comment = DBclasses.Comment(post=int(pid), author=user.name, body=body)
-		#store comment
-		comment.put()
-		time.sleep(.2)
-		self.redirect("/blog/%s" % pid)
+		if user_from_cookie(self):
+			user = user_from_cookie(self)
+			body = self.request.get("comment-body")
+			comment = Comment(post=int(pid), author=user.name, body=body)
+			#store comment
+			comment.put()
+			time.sleep(.2)
+			self.redirect("/blog/%s" % pid)
+		else:
+			self.redirect('/blog/login')
 
 
 # /BLOG/SIGNUP
@@ -133,12 +136,12 @@ class SignUpHandler(Handler):
 		#if valid name, check if already in User db
 		if name_reply == '':
 			#if name already exists, set error message
-			user = DBclasses.User.gql("where name = :username", username=username).get()
+			user = User.gql("where name = :username", username=username).get()
 			if user:
 				name_reply = "Name %s already exists" % user.name
 			#else store entry in User db
 			else:
-				u = DBclasses.User(name=username, pw=security.hash_str(password))
+				u = User(name=username, pw=security.hash_str(password))
 				user = u.put()
 				uid = user.id()
 
@@ -170,7 +173,7 @@ class LoginHandler(Handler):
 
 		#if valid name entry, query account
 		if name_reply == '':
-			user = DBclasses.User.gql("where name = :username", username=username).get()
+			user = User.gql("where name = :username", username=username).get()
 			#if user account exists and correct password, set cookie and redirect
 			if user and security.hash_str(password) == user.pw:
 				#set cookie
@@ -214,55 +217,59 @@ class LogoutHandler(Handler):
 # Delete
 class DeleteHandler(Handler):
 	def get(self, pid):
-		#check authentication and authorization
-		if DBclasses.Blog.get_by_id(int(pid)).author == \
-								user_from_cookie(self).name:
-			#check if deleting post or comment
-			if DBclasses.Blog.get_by_id(int(pid)):
-				post = DBclasses.Blog.get_by_id(int(pid))
+		#check if deleting post or comment
+		user = user_from_cookie(self)
+		if Blog.get_by_id(int(pid)):
+			if Blog.get_by_id(int(pid)).author == user.name:
+				post = Blog.get_by_id(int(pid))
 				#delete post
 				post.delete()
 				#remove all comments on post
-				comments = DBclasses.Comment.gql(
+				comments = Comment.gql(
 					"where post = :post", post=int(pid)).fetch(limit=None)
 				for comment in comments:
 					comment.delete()
 				#find all the users who liked the post and remove record
-				users = DBclasses.User.all().filter(
+				users = User.all().filter(
 							'likes', int(pid)).fetch(limit=None)
 				for user in users:
 					user.likes.remove(int(pid))
 				time.sleep(.2)
 				self.redirect('/blog')
 			else:
-				#delete comment
-				comment = DBclasses.Comment.get_by_id(int(pid))
+				self.redirect('/blog/logout')
+		else:
+			#delete comment
+			if Comment.get_by_id(int(pid)).author == user.name:
+				comment = Comment.get_by_id(int(pid))
 				post_id = comment.post
 				comment.delete()
 				time.sleep(.2)
 				self.redirect('/blog/%s' % post_id)
-		else:
-			self.redirect('/blog')
+			else:
+				self.redirect('/blog/logout')
 
 
 # Edit
 class EditHandler(Handler):
 	def get(self, pid):
 		#check authentication and authorization
-		if DBclasses.Blog.get_by_id(int(pid)).author == \
+		if Blog.get_by_id(int(pid)).author == \
 								user_from_cookie(self).name:
 			#check if edit is for post or comment
-			if DBclasses.Blog.get_by_id(int(pid)):
-				post = DBclasses.Blog.get_by_id(int(pid))
+			if Blog.get_by_id(int(pid)):
+				post = Blog.get_by_id(int(pid))
+				kind = "post"
 			else:
-				post = DBclasses.Comment.get_by_id(int(pid))
-			self.render('edit.html', post=post)
+				post = Comment.get_by_id(int(pid))
+				kind = comment
+			self.render('edit.html', post=post, kind=kind)
 		else:
 			self.redirect('/blog')
 
 	def post(self, pid):
 		#check authentication and authorization
-		if DBclasses.Blog.get_by_id(int(pid)).author == \
+		if Blog.get_by_id(int(pid)).author == \
 								user_from_cookie(self).name:
 			#if edit canceled, return to post page
 			if self.request.get("cancel"):
@@ -270,10 +277,11 @@ class EditHandler(Handler):
 			else:		
 				#check if editing a post or comment and get 
 					#original post, update, and place back
-				if self.request.get("title"):
+				kind = self.request.get('kind')
+				if kind == "post":
 					title = self.request.get("title")
 					body = self.request.get("body")
-					post = DBclasses.Blog.get_by_id(int(pid))
+					post = Blog.get_by_id(int(pid))
 					post.title = title
 					post.body = body
 					post.put()
@@ -281,7 +289,7 @@ class EditHandler(Handler):
 					self.redirect('/blog')
 				else:
 					body = self.request.get("body")
-					comment = DBclasses.Comment.get_by_id(int(pid))
+					comment = Comment.get_by_id(int(pid))
 					comment.body = body
 					comment.put()
 					time.sleep(.2)
@@ -294,7 +302,7 @@ class LikeHandler(Handler):
 	def get(self, pid):
 		user = user_from_cookie(self)
 		#make sure users can't like their own post
-		if DBclasses.Blog.get_by_id(int(pid)).author != user:
+		if Blog.get_by_id(int(pid)).author != user:
 			#if already liked, unlike by removing
 			if int(pid) in user.likes:
 				user.likes.remove(int(pid))
@@ -314,7 +322,7 @@ def user_from_cookie(self):
 	uid_cookie = self.request.cookies.get('uid', '')
 	if uid_cookie and security.check_secure_val(uid_cookie):
 		uid = uid_cookie.split('|')[0]
-		return DBclasses.User.get_by_id(int(uid))
+		return User.get_by_id(int(uid))
 
 
 # HANDLER REDIRECTS
