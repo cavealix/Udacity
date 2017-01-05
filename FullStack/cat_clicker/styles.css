@@ -1,0 +1,8 @@
+div {
+    display: block;
+    max-width: 640px;
+}
+
+img {
+    max-width: inherit;
+    }
